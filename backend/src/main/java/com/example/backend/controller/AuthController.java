@@ -3,7 +3,6 @@ package com.example.backend.controller;
 import com.example.backend.model.LoginResponse;
 import com.example.backend.model.User;
 import com.example.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
