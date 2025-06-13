@@ -1,7 +1,10 @@
 package com.example.backend.controller;
 
 
+import com.example.backend.model.Stock;
 import com.example.backend.service.StockService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,15 +23,23 @@ public class StockController {
 
 
     @GetMapping("/getReportDates/{ticker}")
-    public String getReportDates(@PathVariable String ticker) {
+    public ResponseEntity<?> getReportDates(@PathVariable String ticker) {
         System.out.println("Received ticker: " + ticker);
-        return stockService.getReportDates(ticker).toString();
+        return ResponseEntity.ok(stockService.getReportDates(ticker));        
     }
 
-    @GetMapping("/test")
-    public String test() {
+    @PostMapping("/test")
+    public ResponseEntity<?> test(@RequestBody String body) {
         System.out.println("Test endpoint hit!");
-        return "test endpoint hit!";
+        System.out.println("Body: " + body);
+        return ResponseEntity.ok(body);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody Stock stock) {
+        Stock createdStock = stockService.createStock(stock);
+        System.out.println("hej");
+        return ResponseEntity.ok(createdStock);
     }
     
 }

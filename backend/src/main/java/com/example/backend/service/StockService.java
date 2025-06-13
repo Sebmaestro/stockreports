@@ -2,7 +2,13 @@ package com.example.backend.service;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+
+import com.example.backend.model.Stock;
+import com.example.backend.model.StockDates;
+import com.example.backend.repository.StockRepository;
 
 import java.io.IOException;
 import java.net.URI;
@@ -15,9 +21,12 @@ import java.util.*;
 @Service
 public class StockService {
 
+    @Autowired
+    private StockRepository stockRepository;
+
     private final String ninjaKey = "LE1nw3XIL/RgGi3CEeygOA==PrOgklZv3qU54kT9";
 
-    public List<LocalDate> getReportDates(String ticker) {
+    public StockDates getReportDates(String ticker) {
         List<LocalDate> upcoming = callApiForDates(ticker, true);
         List<LocalDate> past = callApiForDates(ticker, false);
         List<LocalDate> allDates = new ArrayList<>();
@@ -55,7 +64,7 @@ public class StockService {
         return dates;
     }
 
-    private List<LocalDate> parseClosestDates(List<LocalDate> dates) {
+    private StockDates parseClosestDates(List<LocalDate> dates) {
         LocalDate today = LocalDate.now();
         LocalDate closestBefore = null;
         LocalDate closestAfter = null;
@@ -72,6 +81,18 @@ public class StockService {
             }
         }
 
-        return Arrays.asList(closestBefore, closestAfter);
+        return new StockDates(closestBefore, closestAfter);
+    }
+
+    public Stock createStock(Stock stock) {
+        //stock.setTicker(stock.getTicker());
+        StockDates dates = getReportDates(stock.getTicker());
+        stock.setLatestReport(dates.getLatestReport());
+        stock.setUpcomingReport(dates.getUpcomingReport());
+        
+
+        
+
+        return stockRepository.save(stock);
     }
 }
