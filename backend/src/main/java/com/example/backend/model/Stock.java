@@ -23,6 +23,7 @@ public class Stock {
     @Column(name = "upcoming_report")
     private LocalDate upcomingReport;
 
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -75,4 +76,6 @@ public class Stock {
     public void setUser(User user) {
         this.user = user;
     }    
+    
+
 }

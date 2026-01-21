@@ -1,4 +1,4 @@
-package com.example.backend.controller;
+/* package com.example.backend.controller;
 
 import com.example.backend.model.LoginResponse;
 import com.example.backend.model.User;
@@ -82,4 +82,4 @@ public class AuthController {
         return "Test";
     }
 
-}
+} */

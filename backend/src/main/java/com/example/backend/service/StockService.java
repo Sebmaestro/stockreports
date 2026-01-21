@@ -3,12 +3,13 @@ package com.example.backend.service;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+
 import org.springframework.stereotype.Service;
 
 import com.example.backend.model.Stock;
 import com.example.backend.model.StockDates;
 import com.example.backend.repository.StockRepository;
+import com.example.backend.model.User;
 
 import java.io.IOException;
 import java.net.URI;
@@ -86,11 +87,14 @@ public class StockService {
 
     public Stock createStock(Stock stock) {
         //stock.setTicker(stock.getTicker());
+        System.out.println("stocken är" + stock);
+        System.out.println("big testing");
         StockDates dates = getReportDates(stock.getTicker());
         stock.setLatestReport(dates.getLatestReport());
         stock.setUpcomingReport(dates.getUpcomingReport());
+        //stock.setUser(user);
+  
         
-
         
 
         return stockRepository.save(stock);

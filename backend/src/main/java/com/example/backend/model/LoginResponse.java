@@ -1,26 +1,23 @@
-package com.example.backend.model; // eller dto om du har en sådan mapp
+package com.example.backend.model;
 
 public class LoginResponse {
+    private String token;
+    private String username;
+    private String email;
 
-    public enum LoginResult {
-        SUCCESS,
-        WRONG_PASSWORD,
-        USER_NOT_FOUND
+    public LoginResponse(String token, String username, String email) {
+        this.token = token;
+        this.username = username;
+        this.email = email;
     }
 
-    private LoginResult result;
-    private User user; // valfritt – du kan också bara returnera username/id om du vill
-
-    public LoginResponse(LoginResult result, User user) {
-        this.result = result;
-        this.user = user;
+    public String getToken() {
+        return token;
     }
-
-    public LoginResult getResult() {
-        return result;
+    public String getUsername() {
+        return username;
     }
-
-    public User getUser() {
-        return user;
+    public String getEmail() {
+        return email;
     }
 }

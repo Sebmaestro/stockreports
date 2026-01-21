@@ -14,9 +14,13 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
 
+    private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public User register(User user) {
         System.out.println("Registering user: " + user.getUsername());
@@ -26,12 +30,17 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public LoginResponse login(String username, String rawPassword) {
+    public Optional<User> login(String username, String password) {
+        return userRepository.findByUsername(username)
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()));
+    }
+
+    /* public LoginResponse login(String username, String rawPassword) {
         System.out.println("Logging in user: " + username);
-        System.out.println("Raw password: " + rawPassword);     
+        System.out.println("Raw password: " + rawPassword);
 
         Optional<User> userOptional = userRepository.findByUsername(username);
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             String realPassword = userOptional.get().getPassword();
             boolean passwordMatches = passwordEncoder.matches(rawPassword, realPassword);
 
@@ -45,8 +54,9 @@ public class UserService {
         }
         // user does not exist
         return new LoginResponse(LoginResponse.LoginResult.USER_NOT_FOUND, null);
-        //return userRepository.findByUsername(username).filter(user -> passwordEncoder.matches(rawPassword, user.getPassword())); // jämför hash
-    }
+        // return userRepository.findByUsername(username).filter(user ->
+        // passwordEncoder.matches(rawPassword, user.getPassword())); // jämför hash
+    } */
 
     public Optional<User> getUserByEmail(String email) {
         return userRepository.findByEmail(email);
@@ -58,6 +68,7 @@ public class UserService {
 
     public User getOne(Long id) {
         return userRepository.findById(id).orElse(null); // returnera null om inte hittad
-        //return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        // return userRepository.findById(id).orElseThrow(() -> new
+        // RuntimeException("User not found"));
     }
 }

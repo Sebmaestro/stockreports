@@ -37,8 +37,10 @@ public class StockController {
 
     @PostMapping("/create")
     public ResponseEntity<?> create(@RequestBody Stock stock) {
+        
         Stock createdStock = stockService.createStock(stock);
         System.out.println("hej");
+        System.out.println("Created stock: " + createdStock);
         return ResponseEntity.ok(createdStock);
     }
     

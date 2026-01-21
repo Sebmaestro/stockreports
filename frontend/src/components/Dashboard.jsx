@@ -13,7 +13,8 @@ function Dashboard() {
         e.preventDefault();
         setTicker(e.target.value);
         try {
-            const response = await fetch("http://localhost:8080/api/stock/test", {
+            //const response = await fetch("http://localhost:8080/api/stock/test", {
+            const response = await fetch("http://localhost:8080/api/stock/create", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
